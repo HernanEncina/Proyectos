@@ -1,0 +1,104 @@
+.logo{
+    text-align: left;
+
+}
+
+html { background-color: rgb(249, 245, 232);}
+
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Logo on right, navbar on left */
+    align-items: center;
+    padding: 20px;
+}
+
+.navbar{
+    display: flex;
+    gap: 20px;
+}
+
+.main-content{
+    display: flex;
+}
+
+.highlight{
+    font-family: 'Courier New', Courier, monospace  ;
+    font-weight: bolder;
+    font-size: 45px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.smol-text{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: light;
+    font-size: 15px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+.main-text{
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 7px;
+}
+
+.other-text{
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.box1{
+    background-color: #FFFFFF;
+    padding: 20px ;
+    margin-left: 40px;
+    border-radius: 20px;
+    border: 1px solid #3D3D3D;
+    width: fit-content;
+    
+}
+
+.normal-text1{
+    size: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 0;
+}
+
+.card-price{
+    margin-bottom: 0px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00715D;
+}
+
+.donar-ahora{
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: #00715D;
+    font-family: 'Courier New', Courier, monospace;
+    color: #FFFFFF;
+}
+
+.box2{
+    background-color: #FFFFFF;
+    padding: 20px ;
+    margin-left: 40px;
+    border-radius: 20px;
+    border: 1px solid #3D3D3D;
+    width: fit-content;
+}
+/*
+.caja-blanca{
+    display: flex;
+    background-color: #FFFFFF;
+    flex-direction: row;
+    max-width: 1100px;
+    width: 100%;
+
+    padding: 48px;
+    border-radius: 24px;
+
+    box-shadow: 0 10px 48px;
+}
+*/
+
