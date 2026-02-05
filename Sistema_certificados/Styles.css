@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #e5e5e5;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
+  background: #ddd;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 40px;
+}
+
+nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* LAYOUT */
+.layout {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+  justify-content: center;
+}
+
+/* IZQUIERDA */
+.preview img {
+  width: 300px;
+  border-radius: 10px;
+}
+
+.maximo {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* FORMULARIO */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+}
+
+.formulario input,
+.formulario select {
+  padding: 8px;
+}
+
+/* RESUMEN */
+.resumen {
+  border: 1px solid #999;
+  padding: 20px;
+  width: 250px;
+  background: #f3f3f3;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* BOTÓN */
+.pago {
+  margin: 30px auto;
+  display: block;
+  padding: 15px 40px;
+  background: #0a7c66;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
