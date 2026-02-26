@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado Moderno - TecSalud</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Variables para el contenido dinámico */
+            --nombre-donante: "[Inserte nombre]";
+            --monto-donacion: "$[inserte monto]";
+            --causa-donacion: "[Inserte causa]";
+            
+            /* Colores corporativos */
+            --azul-oscuro: #0a1a33;
+            --azul-claro: #007bff;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .certificate-container {
+            width: 900px;
+            height: 650px;
+            background-color: white;
+            position: relative;
+            overflow: hidden; /* Para las formas geométricas de las esquinas */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            box-sizing: border-box;
+        }
+
+        /* Formas Geométricas (Esquinas) */
+        .corner-decoration {
+            position: absolute;
+            background: linear-gradient(135deg, var(--azul-oscuro) 30%, var(--azul-claro) 100%);
+            z-index: 1;
+        }
+
+        .corner-top-left {
+            width: 200px; height: 100px;
+            top: -40px; left: -40px;
+            transform: rotate(-15deg);
+        }
+
+        .corner-bottom-right {
+            width: 300px; height: 600px;
+            bottom: -300px; right: -150px;
+            transform: rotate(45deg);
+        }
+
+        /* Contenido Central */
+        .main-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            color: var(--azul-oscuro);
+            font-size: 72px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -2px;
+        }
+
+        .sub-title {
+            color: var(--azul-claro);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .intro-text {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Variable Nombre */
+        .name-section {
+            font-size: 48px;
+            font-weight: 700;
+            color: #333;
+            margin: 20px 0;
+            border-bottom: 2px solid #333;
+            display: inline-block;
+            min-width: 400px;
+        }
+        .name-section::after { content: var(--nombre-donante); }
+
+        /* Variable Causa y Monto */
+        .details-section {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.6;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+        .details-section strong { color: var(--azul-oscuro); }
+
+        /* Badge Logo (Derecha superior) */
+        .logo-badge {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            background-color: var(--azul-oscuro);
+            width: 120px;
+            height: 180px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 3;
+        }
+
+        .logo-badge img {
+            width: 60px;
+            margin-bottom: 10px;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-badge span {
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Firmas */
+        .footer-signatures {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            z-index: 2;
+        }
+
+        .sig-box {
+            width: 250px;
+            border-top: 1px solid #999;
+            padding-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="certificate-container">
+        <div class="corner-decoration corner-top-left"></div>
+        <div class="corner-decoration corner-bottom-right"></div>
+
+        <div class="logo-badge">
+            <img src="imagenes/Tecsalud_logo.png" alt="Logo">
+            <span>TEC SALUD</span>
+        </div>
+
+        <div class="main-content">
+            <h1>CERTIFICADO</h1>
+            <div class="sub-title">DE DONACIÓN</div>
+
+            <p class="intro-text">Este certificado es entregado a:</p>
+            
+            <div class="name-section"></div>
+
+            <div class="details-section">
+                Por su gran contribución de <strong style="display:block; font-size: 24px;"><span></span></strong>
+                a la causa de: <br><strong><span></span></strong>
+            </div>
+        </div>
+
+        <div class="footer-signatures">
+            <div class="sig-box">Directos general</div>
+            <div class="sig-box">Encargado de los certificados</div>
+        </div>
+    </div>
+
+    <script>
+        const root = document.querySelector(':root');
+        const style = getComputedStyle(root);
+        
+        document.querySelectorAll('.details-section strong span')[0].innerText = style.getPropertyValue('--monto-donacion');
+        document.querySelectorAll('.details-section strong span')[1].innerText = style.getPropertyValue('--causa-donacion');
+    </script>
+
+</body>
+</html>
