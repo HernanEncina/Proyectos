@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Donación - Elegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Variables modificables */
+            --nombre-donante: "[Inserte nombre]";
+            --causa-donacion: "[Inserte causa]";
+            --color-dorado: linear-gradient(135deg, #a67c00 0%, #ffbf00 50%, #a67c00 100%);
+        }
+
+        body {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Contenedor Principal */
+        .certificate-gold {
+            width: 900px;
+            height: 650px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Borde Dorado Doble */
+        .gold-border {
+            border: 8px solid transparent;
+            border-image: var(--color-dorado) 1;
+            height: 100%;
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Título Principal */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 45px;
+            font-weight: 400;
+            margin: 40px 0 10px;
+            letter-spacing: 3px;
+            color: #1a1a1a;
+        }
+
+        .title-de {
+            font-family: 'Alex Brush', cursive; /* Fuente manuscrita para el "de" */
+            font-size: 35px;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        .entregado-a {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 14px;
+            margin: 40px 0;
+            color: #666;
+        }
+
+        /* Variable Nombre */
+        .nombre-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #b8860b; /* Color oro oscuro */
+            margin: 20px auto;
+            width: 85%;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 5px;
+        }
+
+        .nombre-line::after {
+            content: var(--nombre-donante);
+        }
+
+        /* Variable Causa */
+        .reconocimiento-texto {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #444;
+            margin: 50px auto;
+            width: 80%;
+        }
+
+        .reconocimiento-texto::before {
+            content: "Este es un reconocimiento por su contribución a ";
+        }
+
+        .reconocimiento-texto::after {
+            content: var(--causa-donacion);
+            font-weight: bold;
+        }
+
+        /* Firmas y Sello Inferior */
+        .footer-gold {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 60px;
+            padding: 0 40px;
+        }
+
+        .signature-gold {
+            width: 180px;
+            border-top: 1px solid #d4af37;
+            padding-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Sello Circular Dorado */
+        .seal-gold {
+            width: 90px;
+            height: 90px;
+            background: var(--color-dorado);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .seal-inner {
+            width: 80px;
+            height: 80px;
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .seal-inner img {
+            width: 45px;
+            filter: brightness(0) invert(1); /* Logo en blanco */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="certificate-gold">
+        <div class="gold-border">
+            
+            <h1>CERTIFICADO <span class="title-de">de</span> DONACIÓN</h1>
+            
+            <p class="entregado-a">entregado a:</p>
+
+            <div class="nombre-line"></div>
+
+            <p class="reconocimiento-texto"></p>
+
+            <div class="footer-gold">
+                <div class="signature-gold">Manager</div>
+
+                <div class="seal-gold">
+                    <div class="seal-inner">
+                        <img src="imagenes/Tecsalud_logo.png" alt="Sello">
+                    </div>
+                </div>
+
+                <div class="signature-gold">Co Founder</div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
