@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Donación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Variables para modificar el contenido fácilmente */
+            --nombre-donante: "[inserte nombre]";
+            --causa-donacion: "[Inserte causa]";
+        }
+
+        body {
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .certificate {
+            width: 900px;
+            height: 650px;
+            background-color: #f2f2f2; /* Color de fondo tipo papel */
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+        }
+
+        /* Marco Azul Interno */
+        .outer-border {
+            border: 3px solid #004a99;
+            height: 100%;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Esquinas decorativas del marco */
+        .outer-border::before {
+            content: "";
+            position: absolute;
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border: 1px solid #004a99;
+            pointer-events: none;
+        }
+
+        /* Encabezado Logo */
+        .header-logo {
+            background-color: #004a99;
+            width: 220px;
+            height: 140px;
+            margin: -40px auto 30px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            padding: 10px;
+        }
+
+        .header-logo img { width: 50px; margin-bottom: 10px; filter: brightness(0) invert(1); }
+
+        /* Títulos */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 70px;
+            margin: 0;
+            color: #333;
+            letter-spacing: 12px;
+            text-align: center;
+        }
+
+        .sub-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            letter-spacing: 8px;
+            font-weight: 700;
+            margin-top: -10px;
+            text-align: center;
+        }
+
+        .otorgado {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 20px;
+            margin: 30px 0 10px;
+            text-align: center;
+        }
+
+        /* Variables Dinámicas */
+        .variable-nombre::after {
+            content: var(--nombre-donante);
+            font-family: 'Playfair Display', serif;
+            font-size: 45px;
+            color: #222;
+            display: block;
+            border-bottom: 1px solid #999;
+            width: 80%;
+            margin: 0 auto;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .variable-causa::before {
+            content: "Por su contribución de ";
+        }
+        
+        .variable-causa::after {
+            content: var(--causa-donacion);
+            font-weight: bold;
+        }
+
+        .content-text {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        /* Firmas y Sello */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            margin-top: 0%;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .signature-line {
+            border-top: 1px solid #666;
+            width: 200px;
+            text-align: center;
+            padding-top: 2%;
+        }
+
+        .stamp {
+            width: 100px;
+            height: 100px;
+            background-color: #004a99;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="certificate">
+        <div class="outer-border">
+            
+            <div class="header-logo">
+                <img src="imagenes/Tecsalud_logo.png" alt="Logo TecSalud" class="logo-img">
+                <div style="font-size: 24px; font-weight: bold;">TecSalud</div>
+                <div style="font-size: 10px;">Sistema de Salud del <br> Tecnológico de Monterrey</div>
+            </div>
+
+            <h1>CERTIFICADO</h1>
+            <p class="sub-title">DE DONACIÓN</p>
+            
+            <p class="otorgado">otorgado a</p>
+
+            <div class="variable-nombre"></div>
+
+            <p class="content-text variable-causa"></p>
+
+            <div class="footer">
+                <div class="signature-line">
+                    <strong>DIRECTOR</strong><br>
+                    de la institución
+                </div>
+
+                <div class="stamp">
+                    
+                </div>
+
+                <div class="signature-line">
+                    <strong>ENCARGADO</strong><br>
+                    de los certificados
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
