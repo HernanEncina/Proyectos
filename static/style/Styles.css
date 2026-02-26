@@ -9,11 +9,16 @@ body {
 }
 
 /* HEADER */
-.header {
+.header ,
+.navbar {
   display: flex;
   align-items: center;
   padding: 20px 40px;
-  background: #ddd;
+  background: 
+  #ddd;
+}
+nav {
+  margin-left: auto;
 }
 
 .logo {
@@ -23,7 +28,6 @@ body {
 }
 
 nav a {
-  margin-right: 20px;
   text-decoration: none;
   color: #333;
 }
@@ -77,13 +81,15 @@ nav a {
 }
 
 /* BOTÓN */
-.pago {
-  margin: 30px auto;
-  display: block;
-  padding: 15px 40px;
-  background: #0a7c66;
-  color: white;
+.button {
+  margin-top: 24px;
+  padding: 14px 20px;
   border: none;
+  border-radius: 899px;
+  background-color: rgb(0, 113, 93);
+  color: white;
   font-size: 16px;
   cursor: pointer;
+  text-decoration: none; /* quita el subrayado */
+  display: inline-block; /* necesario para padding correcto */
 }

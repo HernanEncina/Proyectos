@@ -19,10 +19,11 @@ html { background-color: rgb(249, 245, 232);}
 
 .main-content{
     display: flex;
+    margin-top: 70px;
 }
 
 .highlight{
-    font-family: 'Courier New', Courier, monospace  ;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
     font-size: 45px;
     margin-top: 0px;
@@ -30,7 +31,7 @@ html { background-color: rgb(249, 245, 232);}
 }
 
 .smol-text{
-    font-family: 'Courier New', Courier, monospace;
+    font-family:  Arial, Helvetica, sans-serif;
     font-weight: light;
     font-size: 15px;
     margin-bottom: 0px;
@@ -45,7 +46,7 @@ html { background-color: rgb(249, 245, 232);}
 
 .other-text{
     font-size: 25px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
@@ -61,13 +62,13 @@ html { background-color: rgb(249, 245, 232);}
 
 .normal-text1{
     size: 4px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family:  Arial, Helvetica, sans-serif;
     margin-top: 0;
 }
 
 .card-price{
     margin-bottom: 0px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family:  Arial, Helvetica, sans-serif;
     color: #00715D;
 }
 
@@ -75,7 +76,7 @@ html { background-color: rgb(249, 245, 232);}
     font-size: 20px;
     border-radius: 10px;
     background-color: #00715D;
-    font-family: 'Courier New', Courier, monospace;
+    font-family:  Arial, Helvetica, sans-serif;
     color: #FFFFFF;
 }
 

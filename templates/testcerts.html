@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 TecSalud - Test de Certificados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #555;
+            margin: 15px 0 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background: #48bb78;
+        }
+
+        .btn.secondary:hover {
+            background: #38a169;
+        }
+
+        .btn.warning {
+            background: #ed8936;
+        }
+
+        .btn.warning:hover {
+            background: #dd6b20;
+        }
+
+        .btn.danger {
+            background: #f56565;
+        }
+
+        .btn.danger:hover {
+            background: #e53e3e;
+        }
+
+        .certificados-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .certificado-item {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+
+        .certificado-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .certificado-item h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .certificado-item .precio {
+            font-size: 1.2em;
+            color: #48bb78;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .certificado-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .certificado-actions button {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.9em;
+        }
+
+        .item-row {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .remove-item {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .total {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: right;
+            margin: 20px 0;
+            padding: 15px;
+            background: #ebf4ff;
+            border-radius: 8px;
+            color: #2d3748;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-bottom: none;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge.success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideIn 0.3s;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.success { border-left: 4px solid #48bb78; }
+        .toast.error { border-left: 4px solid #f56565; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-card .label {
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 TecSalud - Test de Certificados</h1>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('donar')">💰 Donar</div>
+            <div class="tab" onclick="showTab('certificados')">📜 Mis Certificados</div>
+            <div class="tab" onclick="showTab('buscar')">🔍 Buscar por Email</div>
+            <div class="tab" onclick="showTab('stats')">📊 Estadísticas</div>
+        </div>
+
+        <!-- Tab: Donar -->
+        <div id="tab-donar" class="tab-content active">
+            <div class="grid">
+                <!-- Columna izquierda: Certificados disponibles -->
+                <div class="card">
+                    <h2>📦 Certificados Disponibles</h2>
+                    <div id="certificados-disponibles" class="certificados-list">
+                        <div class="loading">Cargando certificados...</div>
+                    </div>
+                </div>
+
+                <!-- Columna derecha: Formulario de donación -->
+                <div class="card">
+                    <h2>💳 Nueva Donación</h2>
+                    <form id="donacion-form">
+                        <div class="form-group">
+                            <label>Nombre del titular:</label>
+                            <input type="text" id="nombre_titular" value="Juan Pérez" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="email" value="juan@example.com" required>
+                        </div>
+
+                        <h3>🛒 Items seleccionados</h3>
+                        <div id="items-container"></div>
+
+                        <button type="button" class="btn secondary" onclick="agregarItem()">+ Agregar certificado</button>
+
+                        <div class="total" id="total-display">Total: $0.00</div>
+
+                        <button type="submit" class="btn" style="width: 100%;">💸 Procesar Pago y Descargar Certificado</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Mis Certificados -->
+        <div id="tab-certificados" class="tab-content">
+            <div class="card">
+                <h2>📜 Mis Certificados</h2>
+                <div class="form-group">
+                    <label>Email para buscar:</label>
+                    <input type="email" id="search-email-cert" value="juan@example.com">
+                    <button class="btn" onclick="buscarMisCertificados()" style="margin-top: 10px;">Buscar</button>
+                </div>
+                <div id="mis-certificados-container"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Buscar por Email -->
+        <div id="tab-buscar" class="tab-content">
+            <div class="card">
+                <h2>🔍 Buscar Certificados por Email</h2>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="buscar-email" placeholder="ejemplo@email.com">
+                    <button class="btn" onclick="buscarCertificados()" style="margin-top: 10px;">Buscar</button>
+                </div>
+                <div id="buscar-resultados"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Estadísticas -->
+        <div id="tab-stats" class="tab-content">
+            <div class="card">
+                <h2>📊 Estadísticas</h2>
+                <div class="stats" id="stats-container">
+                    <div class="loading">Cargando estadísticas...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista previa de certificado -->
+        <div class="card full-width" id="preview-section" style="display: none;">
+            <h2>👁️ Vista Previa del Certificado</h2>
+            <div style="text-align: center;">
+                <img id="cert-preview" class="preview-img" alt="Vista previa del certificado">
+                <div style="margin-top: 15px;">
+                    <button class="btn secondary" onclick="descargarPreview()">📥 Descargar</button>
+                    <button class="btn warning" onclick="cerrarPreview()">✖️ Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <!-- Template para items -->
+    <template id="item-template">
+        <div class="item-row" data-index="{index}">
+            <button type="button" class="remove-item" onclick="eliminarItem({index})">✖</button>
+            <div class="form-group">
+                <label>Certificado:</label>
+                <select class="item-certificado" onchange="actualizarItem({index})" required>
+                    <option value="">Selecciona un certificado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Cantidad:</label>
+                <input type="number" class="item-cantidad" min="1" value="1" onchange="actualizarItem({index})" required>
+            </div>
+            <div class="form-group">
+                <label>A nombre de (opcional):</label>
+                <input type="text" class="item-beneficiario" placeholder="Nombre del beneficiario" onchange="actualizarItem({index})">
+            </div>
+            <div class="form-group">
+                <label>Mensaje personalizado:</label>
+                <textarea class="item-mensaje" placeholder="Escribe un mensaje para el certificado..." onchange="actualizarItem({index})"></textarea>
+            </div>
+            <div class="item-precio" style="text-align: right; font-weight: bold;"></div>
+        </div>
+    </template>
+
+    <!-- Template para certificado en lista -->
+    <template id="certificado-list-template">
+        <div class="certificado-item" data-detalle-id="{detalle_id}">
+            <h4>{nombre_certificado}</h4>
+            <p><strong>Beneficiario:</strong> {nombre_beneficiario}</p>
+            <p><strong>Cantidad:</strong> {cantidad}</p>
+            <p><strong>Monto:</strong> ${monto_total}</p>
+            <p><strong>Folio:</strong> {folio}</p>
+            <p><small>{fecha}</small></p>
+            <div class="certificado-actions">
+                <button class="btn secondary" onclick="verCertificado({detalle_id})">👁️ Ver</button>
+                <button class="btn" onclick="descargarCertificado({detalle_id})">📥 Descargar</button>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // Estado global
+        let certificadosGlobal = [];
+        let itemsDonacion = [];
+        let currentPreviewId = null;
+        let itemCounter = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarCertificados();
+            
+            // Agregar un item por defecto
+            setTimeout(() => {
+                agregarItem();
+            }, 500);
+        });
+
+        // ============================================
+        // FUNCIONES DE UI
+        // ============================================
+
+        function showTab(tabName) {
+            // Actualizar tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Activar tab seleccionado
+            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function formatMoney(amount) {
+            return amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+
+        // ============================================
+        // API: Certificados disponibles
+        // ============================================
+
+        async function cargarCertificados() {
+            try {
+                const response = await fetch('/api/certificados');
+                const data = await response.json();
+                
+                if (data.certificados) {
+                    certificadosGlobal = data.certificados;
+                    renderizarCertificadosDisponibles();
+                    actualizarSelectsCertificados();
+                }
+            } catch (error) {
+                showToast('Error al cargar certificados: ' + error.message, 'error');
+            }
+        }
+
+        function renderizarCertificadosDisponibles() {
+            const container = document.getElementById('certificados-disponibles');
+            
+            if (certificadosGlobal.length === 0) {
+                container.innerHTML = '<p>No hay certificados disponibles</p>';
+                return;
+            }
+
+            let html = '';
+            certificadosGlobal.forEach(cert => {
+                html += `
+                    <div class="certificado-item">
+                        <h4>${cert.nombre}</h4>
+                        <p>${cert.descripcion || 'Sin descripción'}</p>
+                        <div class="precio">$${formatMoney(cert.precio)}</div>
+                        <button class="btn secondary" onclick="agregarItemConCertificado(${cert.id}, '${cert.nombre}', ${cert.precio})">
+                            + Agregar
+                        </button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // ============================================
+        // FUNCIONES DE ITEMS (Donación)
+        // ============================================
+
+        function agregarItem() {
+            const index = itemCounter++;
+            const template = document.getElementById('item-template').innerHTML.replace(/{index}/g, index);
+            
+            const container = document.getElementById('items-container');
+            container.insertAdjacentHTML('beforeend', template);
+            
+            // Llenar el select con los certificados
+            const select = document.querySelector(`.item-row[data-index="${index}"] .item-certificado`);
+            llenarSelectCertificados(select);
+            
+            // Inicializar item
+            itemsDonacion[index] = {
+                index: index,
+                certificado_id: null,
+                nombre: '',
+                cantidad: 1,
+                precio: 0,
+                nombre_beneficiario: '',
+                mensaje: ''
+            };
+            
+            actualizarTotal();
+        }
+
+        function agregarItemConCertificado(id, nombre, precio) {
+            agregarItem();
+            
+            // Buscar el último item agregado
+            setTimeout(() => {
+                const lastIndex = itemCounter - 1;
+                const select = document.querySelector(`.item-row[data-index="${lastIndex}"] .item-certificado`);
+                const cantidad = document.querySelector(`.item-row[data-index="${lastIndex}"] .item-cantidad`);
+                
+                if (select) {
+                    select.value = id;
+                    itemsDonacion[lastIndex] = {
+                        index: lastIndex,
+                        certificado_id: id,
+                        nombre: nombre,
+                        cantidad: 1,
+                        precio: precio,
+                        nombre_beneficiario: '',
+                        mensaje: ''
+                    };
+                    
+                    // Mostrar precio
+                    const precioDiv = document.querySelector(`.item-row[data-index="${lastIndex}"] .item-precio`);
+                    precioDiv.textContent = `$${formatMoney(precio)} c/u`;
+                    
+                    actualizarTotal();
+                }
+            }, 100);
+        }
+
+        function eliminarItem(index) {
+            const itemRow = document.querySelector(`.item-row[data-index="${index}"]`);
+            if (itemRow) {
+                itemRow.remove();
+                delete itemsDonacion[index];
+                actualizarTotal();
+            }
+        }
+
+        function actualizarItem(index) {
+            const row = document.querySelector(`.item-row[data-index="${index}"]`);
+            
+            const select = row.querySelector('.item-certificado');
+            const cantidad = row.querySelector('.item-cantidad');
+            const beneficiario = row.querySelector('.item-beneficiario');
+            const mensaje = row.querySelector('.item-mensaje');
+            const precioDiv = row.querySelector('.item-precio');
+            
+            const certId = parseInt(select.value);
+            const certificado = certificadosGlobal.find(c => c.id === certId);
+            
+            if (certificado) {
+                itemsDonacion[index] = {
+                    index: index,
+                    certificado_id: certId,
+                    nombre: certificado.nombre,
+                    cantidad: parseInt(cantidad.value) || 1,
+                    precio: certificado.precio,
+                    nombre_beneficiario: beneficiario.value,
+                    mensaje: mensaje.value
+                };
+                
+                precioDiv.textContent = `$${formatMoney(certificado.precio)} c/u`;
+            } else {
+                itemsDonacion[index] = {
+                    ...itemsDonacion[index],
+                    cantidad: parseInt(cantidad.value) || 1,
+                    nombre_beneficiario: beneficiario.value,
+                    mensaje: mensaje.value
+                };
+            }
+            
+            actualizarTotal();
+        }
+
+        function llenarSelectCertificados(select) {
+            select.innerHTML = '<option value="">Selecciona un certificado</option>';
+            certificadosGlobal.forEach(cert => {
+                select.innerHTML += `<option value="${cert.id}">${cert.nombre} - $${formatMoney(cert.precio)}</option>`;
+            });
+        }
+
+        function actualizarSelectsCertificados() {
+            document.querySelectorAll('.item-certificado').forEach(select => {
+                const currentValue = select.value;
+                llenarSelectCertificados(select);
+                if (currentValue) select.value = currentValue;
+            });
+        }
+
+        function actualizarTotal() {
+            let total = 0;
+            
+            Object.values(itemsDonacion).forEach(item => {
+                if (item && item.precio && item.cantidad) {
+                    total += item.precio * item.cantidad;
+                }
+            });
+            
+            document.getElementById('total-display').textContent = `Total: $${formatMoney(total)}`;
+        }
+
+        // ============================================
+        // API: Procesar Pago
+        // ============================================
+
+        document.getElementById('donacion-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validar items
+            const items = Object.values(itemsDonacion).filter(item => item && item.certificado_id);
+            
+            if (items.length === 0) {
+                showToast('Agrega al menos un certificado', 'error');
+                return;
+            }
+            
+            const data = {
+                nombre_titular: document.getElementById('nombre_titular').value,
+                email: document.getElementById('email').value,
+                items: items
+            };
+            
+            try {
+                showToast('Procesando pago...', 'success');
+                
+                const response = await fetch('/api/procesar-pago', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Error en el pago');
+                }
+                
+                // Obtener headers
+                const donacionId = response.headers.get('X-Donacion-ID');
+                const folio = response.headers.get('X-Folio');
+                
+                // Verificar si es una imagen
+                const contentType = response.headers.get('Content-Type');
+                
+                if (contentType && contentType.includes('image/png')) {
+                    // Descargar el certificado
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `certificado_${folio}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    
+                    showToast(`✅ Pago exitoso! Folio: ${folio}`);
+                    
+                    // Limpiar formulario
+                    document.getElementById('items-container').innerHTML = '';
+                    itemsDonacion = [];
+                    itemCounter = 0;
+                    agregarItem();
+                    
+                    // Mostrar preview
+                    if (donacionId) {
+                        setTimeout(() => {
+                            buscarMisCertificados(document.getElementById('email').value);
+                            showTab('certificados');
+                        }, 1000);
+                    }
+                }
+                
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        });
+
+        // ============================================
+        // API: Ver/Descargar Certificados
+        // ============================================
+
+        async function verCertificado(detalleId) {
+            try {
+                const response = await fetch(`/api/certificado/${detalleId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Error al cargar certificado');
+                }
+                
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                
+                document.getElementById('cert-preview').src = url;
+                document.getElementById('preview-section').style.display = 'block';
+                currentPreviewId = detalleId;
+                
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        async function descargarCertificado(detalleId) {
+            try {
+                const response = await fetch(`/api/certificado/${detalleId}?formato=download`);
+                
+                if (!response.ok) {
+                    throw new Error('Error al descargar certificado');
+                }
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `certificado_${detalleId}.png`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                showToast('✅ Certificado descargado');
+                
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        function descargarPreview() {
+            if (currentPreviewId) {
+                descargarCertificado(currentPreviewId);
+            }
+        }
+
+        function cerrarPreview() {
+            document.getElementById('preview-section').style.display = 'none';
+            document.getElementById('cert-preview').src = '';
+            currentPreviewId = null;
+        }
+
+        // ============================================
+        // API: Buscar Certificados por Email
+        // ============================================
+
+        async function buscarMisCertificados() {
+            const email = document.getElementById('search-email-cert').value;
+            await buscarCertificadosPorEmail(email, 'mis-certificados-container');
+        }
+
+        async function buscarCertificados() {
+            const email = document.getElementById('buscar-email').value;
+            await buscarCertificadosPorEmail(email, 'buscar-resultados');
+        }
+
+        async function buscarCertificadosPorEmail(email, containerId) {
+            if (!email) {
+                showToast('Ingresa un email', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/mis-certificados/${encodeURIComponent(email)}`);
+                const data = await response.json();
+                
+                const container = document.getElementById(containerId);
+                
+                if (!data.certificados || data.certificados.length === 0) {
+                    container.innerHTML = '<p>No se encontraron certificados para este email</p>';
+                    return;
+                }
+                
+                let html = '<div class="certificados-list">';
+                
+                data.certificados.forEach(cert => {
+                    const template = document.getElementById('certificado-list-template').innerHTML
+                        .replace(/{detalle_id}/g, cert.detalle_id)
+                        .replace(/{nombre_certificado}/g, cert.certificado_nombre)
+                        .replace(/{nombre_beneficiario}/g, cert.nombre_beneficiario || cert.nombre_titular)
+                        .replace(/{cantidad}/g, cert.cantidad)
+                        .replace(/{monto_total}/g, formatMoney(cert.monto_total))
+                        .replace(/{folio}/g, cert.folio)
+                        .replace(/{fecha}/g, new Date(cert.fecha).toLocaleDateString());
+                    
+                    html += template;
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+                
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        // ============================================
+        // API: Estadísticas
+        // ============================================
+
+        async function cargarEstadisticas() {
+            try {
+                const response = await fetch('/api/estadisticas');
+                const data = await response.json();
+                
+                const container = document.getElementById('stats-container');
+                
+                container.innerHTML = `
+                    <div class="stat-card">
+                        <div class="number">${data.total_donaciones || 0}</div>
+                        <div class="label">Donaciones totales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">$${formatMoney(data.monto_total || 0)}</div>
+                        <div class="label">Monto total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">${data.donaciones_hoy || 0}</div>
+                        <div class="label">Donaciones hoy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">$${formatMoney(data.monto_hoy || 0)}</div>
+                        <div class="label">Monto hoy</div>
+                    </div>
+                `;
+                
+                // Top certificados
+                if (data.top_certificados && data.top_certificados.length > 0) {
+                    let topHtml = '<h3>Top Certificados</h3><div style="margin-top: 20px;">';
+                    data.top_certificados.forEach(cert => {
+                        topHtml += `
+                            <div style="background: #f7fafc; padding: 10px; margin-bottom: 5px; border-radius: 5px;">
+                                <strong>${cert.nombre}</strong>: ${cert.cantidad} vendidos - $${formatMoney(cert.recaudado)}
+                            </div>
+                        `;
+                    });
+                    topHtml += '</div>';
+                    container.innerHTML += topHtml;
+                }
+                
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+            }
+        }
+
+        // Cargar estadísticas cuando se muestra la tab
+        document.querySelector('.tab[onclick="showTab(\'stats\')"]').addEventListener('click', cargarEstadisticas);
+    </script>
+</body>
+</html>

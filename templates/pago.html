@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>TecSalud - Pago</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="Styles.css">
+  
 </head>
 
 <body>
 
 <header class="navbar">
-  <div class="logo">TecSalud</div>
+  <img src="/public/logotecs.png" alt="">
   <nav>
-    <a href="#">Home</a>
-    <a href="#">Mas sobre nosotros</a>
-    <a href="#">Servicios</a>
-    <a href="#">Equipo</a>
-    <a href="#">Contactanos</a>
+    <a href="proyecto.html">Home</a>
   </nav>
 </header>
 
@@ -45,23 +42,26 @@
   </aside>
 
   <!-- Formulario -->
+   
   <section class="formulario">
-    <label>Correo:</label>
-    <input type="email">
+
 
     <label>Nombre del titular:</label>
-    <input type="text">
+    <input type="text" id="name" >
+
+    <label>Correo:</label>
+    <input type="email" id="email" placeholder="<xxxxxx@email.com">
 
     <label>Número de tarjeta:</label>
-    <input type="text">
+    <input type="password" id="num_tarj" placeholder="**********">
 
     <label>CVV:</label>
-    <input type="password">
+    <input type="password" id="cvv" placeholder="****" >
 
     <label>Fecha de expiración:</label>
-    <input type="text">
+    <input type="password" id="fecha_exp" placeholder="**/**">
 
-    <button class="donar">DONAR</button>
+    <a href="pago.html" class="button">Donar Ahora</a>
   </section>
 
 </main>
