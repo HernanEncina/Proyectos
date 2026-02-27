@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <title>TecSalud - Pago</title>
   <link rel="stylesheet" href="Styles.css">
-  
 </head>
-
 <body>
 
 <header class="navbar">
-  <img src="/public/logotecs.png" alt="">
+  <img src="logotecs.png" alt="">
   <nav>
-    <a href="proyecto.html">Home</a>
+    <a href="/main">Home</a>
   </nav>
 </header>
 
@@ -22,49 +20,76 @@
   <aside class="resumen">
     <h3>Resumen de compra</h3>
     <p class="sub">Certificados seleccionados</p>
-
-    <div class="item">
-      <span>Certificado por damnificados</span>
-      <span>$2,500.00</span>
-    </div>
-
-    <div class="item">
-      <span>Certificado para gente ciega</span>
-      <span>$2,500.00</span>
-    </div>
-
+    <div id="items-resumen"></div>
     <hr>
-
-    <div class="total">
+    <div id="total-resumen" class="total">
       <span>Total:</span>
-      <span>$15,000.00</span>
+      <span>$0.00</span>
     </div>
   </aside>
 
-  <!-- Formulario -->
-   
+  <!-- Formulario de pago -->
   <section class="formulario">
+    <div id="error-mensaje" style="color: red; margin-bottom: 10px; display: none;"></div>
+    
+    <label>Nombre del titular de la tarjeta:</label>
+    <input type="text" id="nombre_titular" placeholder="Como aparece en la tarjeta" required>
 
-
-    <label>Nombre del titular:</label>
-    <input type="text" id="name" >
-
-    <label>Correo:</label>
-    <input type="email" id="email" placeholder="<xxxxxx@email.com">
+    <label>Correo electrónico:</label>
+    <input type="email" id="email" placeholder="tu@email.com" required>
 
     <label>Número de tarjeta:</label>
-    <input type="password" id="num_tarj" placeholder="**********">
+    <input type="text" id="num_tarj" placeholder="1234 5678 9012 3456" maxlength="19" required>
 
-    <label>CVV:</label>
-    <input type="password" id="cvv" placeholder="****" >
+    <div style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label>CVV:</label>
+        <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+      </div>
+      <div style="flex: 2;">
+        <label>Fecha de expiración:</label>
+        <input type="text" id="fecha_exp" placeholder="MM/AA" maxlength="5" required>
+      </div>
+    </div>
 
-    <label>Fecha de expiración:</label>
-    <input type="password" id="fecha_exp" placeholder="**/**">
-
-    <a href="pago.html" class="button">Donar Ahora</a>
+    <button id="procesar-pago-btn" class="button" style="width: 100%; margin-top: 20px;">Procesar Pago y Descargar Certificado</button>
+    
+    <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
+      <p>Procesando pago...</p>
+      <div class="spinner"></div>
+    </div>
   </section>
 
 </main>
+
+<style>
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+input.error { border: 2px solid red; }
+</style>
+
+<script src="{{ url_for('static', filename='Ordenes.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM cargado en pago, inicializando...');
+        if (typeof Ordenes !== 'undefined') {
+            Ordenes.initPago();
+        } else {
+            console.error('Ordenes no está definido');
+        }
+    });
+</script>
 
 </body>
 </html>

@@ -5,16 +5,13 @@
   <title>TecSalud</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
 <header class="header">
   <img src="logotecs.png" alt="">
   <div class="lo"></div>
-
   <nav>
-
-    <a href="proyecto.html">Home</a>
+    <a href="/main">Home</a>
   </nav>
 </header>
 
@@ -27,37 +24,56 @@
   </section>
 
   <!-- Columna centro -->
-  <section class="formulario">
-    <label>Escoge tu tipo de certificado</label>
-    <select>
-      <option>Certificado donante lite $200</option>
-      <option>Certificado donante lite $200</option>
+  <!-- Columna centro -->
+<section class="formulario">
+    <!-- NUEVO CAMPO - Quién hace la donación -->
+    <label>Nombre del donante (titular):</label>
+    <input type="text" id="nombre_titular_compra" placeholder="Tu nombre completo" required>
 
+    <label>Escoge tu tipo de certificado</label>
+    <select id="tipo-certificado">
+        <option value="">Cargando certificados...</option>
     </select>
 
     <label>¿Cuántos certificados quieres?</label>
-    <input type="text" placeholder="x1">
+    <input type="number" id="cantidad" min="1" value="1" placeholder="x1">
 
     <label>¿A nombre de quién será el certificado?</label>
-    <input type="text" placeholder="Nombre completo">
+    <input type="text" id="beneficiario" placeholder="Nombre completo (opcional)">
 
     <label>Correo al que llegará el certificado</label>
-    <input type="email">
-    <a href="pago.html" class="button">Donar Ahora</a>
-  </section>
+    <input type="email" id="email" placeholder="tu@email.com" required>
+
+    <label>Mensaje personalizado (opcional)</label>
+    <textarea id="mensaje" placeholder="Escribe un mensaje para el certificado..." rows="3"></textarea>
+
+    <button id="donar-btn" class="button">Donar Ahora</button>
+</section>
 
   <!-- Columna derecha -->
   <aside class="resumen">
     <h3>Resumen de orden</h3>
-    <div class="item">Certificado donante lite $200 x1</div>
-    <div class="total">
-      <span>Subtotal</span>
-      <span>$200</span>
+    <div id="resumen-item" class="item">Certificado: -</div>
+    <div id="resumen-total" class="total">
+      <span>Total:</span>
+      <span>$0</span>
+    </div>
   </aside>
 
 </main>
 
-
+<!-- Scripts -->
+<script src="{{ url_for('static', filename='Ordenes.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM cargado, inicializando Ordenes...');
+        if (typeof Ordenes !== 'undefined') {
+            Ordenes.initResumen();
+        } else {
+            console.error('Ordenes no está definido');
+        }
+    });
+</script>
 
 </body>
 </html>

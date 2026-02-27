@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TecSalud - Mis Certificados</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <img src="logotecs.png" alt="">
+  <nav>
+    <a href="/main">Home</a>
+    <a href="/orden">Donar</a>
+  </nav>
+</header>
+
+<main style="max-width: 1200px; margin: 20px auto; padding: 20px;">
+  <h1>📜 Mis Certificados</h1>
+  
+  <div id="certificados-container">
+    <p>Cargando...</p>
+  </div>
+</main>
+
+<script src="{{ url_for('static', filename='Ordenes.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM cargado en mis-certificados...');
+        if (typeof Ordenes !== 'undefined') {
+            Ordenes.initMisCertificados();
+        } else {
+            console.error('Ordenes no está definido');
+        }
+    });
+</script>
+
+</body>
+</html>

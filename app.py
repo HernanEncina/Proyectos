@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, g, send_file, render_template  # AÑADÍ render_template
+from flask import Flask, request, jsonify, session, g, send_file, redirect, url_for, render_template  # AÑADÍ render_template
 import sqlite3
 from datetime import datetime
 import hashlib
@@ -768,95 +768,35 @@ def migrar_bd():
         return jsonify({"error": str(e)}), 500
 
 # ============================================
-# RUTA PRINCIPAL
+# RUTAS PRINCIPALES
 # ============================================
 
 @app.route("/")
-def index():
-    """Página principal con información de la API"""
-    return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>TecSalud API</title>
-        <style>
-            body { font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px; }
-            h1 { color: #2c3e50; }
-            .card { background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 10px; }
-            .btn { 
-                display: inline-block; 
-                background: #3498db; 
-                color: white; 
-                padding: 10px 20px; 
-                text-decoration: none; 
-                border-radius: 5px;
-                margin: 5px;
-            }
-            .endpoint { 
-                background: #fff; 
-                padding: 10px; 
-                margin: 5px 0; 
-                border-left: 4px solid #3498db;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>🚀 TecSalud API - Certificados</h1>
-        
-        <div class="card">
-            <h2>🧪 Interfaz de Prueba</h2>
-            <a href="/testcerts" class="btn">Ir al Test de Certificados</a>
-        </div>
-
-        <div class="card">
-            <h2>📡 Endpoints Disponibles</h2>
-            
-            <div class="endpoint">
-                <strong>GET /api/certificados</strong> - Lista todos los certificados disponibles
-            </div>
-            
-            <div class="endpoint">
-                <strong>POST /api/procesar-pago</strong> - Procesa un pago y descarga certificado
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/certificado/&lt;id&gt;</strong> - Ver/descargar un certificado específico
-                <br><small>Parámetros: ?formato=download (para descargar), ?formato=json (para datos)</small>
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/mis-certificados/&lt;email&gt;</strong> - Busca certificados por email
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/donacion/&lt;id&gt;/certificados</strong> - Certificados de una donación
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/estadisticas</strong> - Estadísticas generales
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/check-db</strong> - Verificar estado de la BD
-            </div>
-            
-            <div class="endpoint">
-                <strong>GET /api/migrar</strong> - Actualizar estructura de la BD (ejecutar una vez)
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>📊 Estado del Sistema</h2>
-            <p><a href="/api/check-db" class="btn">Verificar Base de Datos</a></p>
-        </div>
-    </body>
-    </html>
-    """
+def indexrender():
+    """Página principal - Redirige a resumen de compra"""
+    return redirect(url_for('mainrender'))
 
 @app.route("/main")
-def registro():
+def mainrender():
    if request.method == "GET":
       return render_template("proyecto.html")
+
+@app.route("/orden")
+def ordenrender():
+   if request.method == "GET":
+      return render_template("Resumen_compra.html")
+
+@app.route("/pago")
+def pagorender():
+   if request.method == "GET":
+      return render_template("pago.html")
+
+@app.route("/mis-certificados")
+def miscertificadosrender():
+   if request.method == "GET":
+      return render_template("mis-certificados.html")
+
+
 
 # ============================================
 # INICIO DEL SERVIDOR
@@ -865,16 +805,6 @@ def registro():
 if __name__ == '__main__':
     print("="*60)
     print("🚀 TecSalud - Sistema de Certificados")
-    print("="*60)
-    print("📌 RUTAS DISPONIBLES:")
-    print("   🌐 /                          - Página principal")
-    print("   🧪 /testcerts                  - Interfaz de prueba")
-    print("   📦 /api/certificados           - Lista certificados")
-    print("   💳 /api/procesar-pago           - Procesar pago")
-    print("   📄 /api/certificado/<id>        - Ver certificado")
-    print("   📧 /api/mis-certificados/<email> - Buscar por email")
-    print("   📊 /api/estadisticas            - Estadísticas")
-    print("   🔧 /api/migrar                  - Migrar BD (ejecutar una vez)")
     print("="*60)
     print(f"📁 BD: {DATABASE}")
     print(f"📁 Plantillas: {TEMPLATES_FOLDER}")

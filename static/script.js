@@ -1,0 +1,1 @@
+/*aqui ira el script js para el funcionamiento de la pagina*/
