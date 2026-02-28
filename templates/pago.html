@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>TecSalud - Pago</title>
-  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/styleR.css') }}">
 </head>
 <body>
 
 <header class="navbar">
-  <img src="logotecs.png" alt="">
+  <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="">
   <nav>
     <a href="/main">Home</a>
   </nav>

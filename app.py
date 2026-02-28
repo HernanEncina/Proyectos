@@ -14,9 +14,9 @@ import time
 app = Flask(__name__)
 app.secret_key = 'Sistema-secret-key-2025'
 
-DATABASE = '/home/hernansote/dbs/sys-donaciones/sys-donaciones'
-UPLOAD_FOLDER = '/home/hernansote/dbs/sys-donaciones/certificados'
-TEMPLATES_FOLDER = '/home/hernansote/dbs/sys-donaciones/plantillas'
+DATABASE = '/Users/cristianV/documents/PROYECTO_DF/static/db'
+UPLOAD_FOLDER = '/Users/cristianV/Documents/proyecto_DF/db/sys-donaciones/certificados'
+TEMPLATES_FOLDER = '/Users/cristianV/Documents/proyecto_DF/db/sys-donaciones/plantillas'
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(TEMPLATES_FOLDER, exist_ok=True)

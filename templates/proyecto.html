@@ -3,8 +3,9 @@
 
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style/hernanstyle.css') }}"><!--- enlace a css  Hernan --> 
-    <link rel="stylesheet" href="/style/styl3.css">  <!--- enlace a css  Cristian --> 
-    <link rel="stylesheet" href="/style/styleR.css">  <!--- enlace a css  rolando --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styl3.css') }}">  <!--- enlace a css  Cristian --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">  <!--- enlace a css  rolando --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styleR.css') }}">
     <title>
         Tecsalud
     </title>
@@ -15,7 +16,7 @@
 
     <div class="header-container"  id="home">
         <!--<img src="{{ url_for('static', filename='images/morro.jpeg') }}" alt="Logo de tecsalud" class="logo">-->
-        <img src="morro.jpeg" alt="Logo de tecsalud" class="logo">
+        <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Logo de tecsalud" class="logo">
         <nav class="navbar">
             <a href="#home">Home</a>
             <a href="#news">Mas sobre nosotros</a>
@@ -32,20 +33,20 @@
             <p class="other-text"> La fundacion Tecsalud esta comprometida a <br> brindar mas acceso a servicios de salud <br> a las personas en situacion<br>vulnerable de nuestro pais</p>
         </div>
         <div class="box1">
-            <img src="disabled1.jpeg" alt="Personas en sillas de ruedas">
+            <img src="{{ url_for('static', filename='images/disabled1.jpeg') }}" alt="Personas en sillas de ruedas">
             <br>
             <p class="card-price"> 1200Mxn </p>
             <p class="normal-text1">Certificado de donante Plus+</p>
             <p class="normal-text1" > Aqui ira una descripcion <br>detallada xd</p>
-            <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+            <a href="/orden" class="btn-donate">Donar Ahora</a>
         </div>
         <div class="box2">
-            <img src="disabled1.jpeg" alt="Personas en sillas de ruedas">
+            <img src="{{ url_for('static', filename='images/disabled1.jpeg') }}" alt="Personas en sillas de ruedas">
             <br>
             <p class="card-price"> 1200Mxn </p>
             <p class="normal-text1">Certificado de donante Plus+</p>
             <p class="normal-text1" > Aqui ira una descripcion <br>detallada xd</p>
-            <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+            <a href="/orden" class="btn-donate">Donar Ahora</a>
         </div>
     </section>
         <!-- fin parte de hernan--------------------------------------------------------------------------------------------->
@@ -60,11 +61,11 @@
                   <h1>De alguien</h1>
                   <p>Puedes hacer tu donacion y recibir tu certificado a nombre de alguien mas, no</p>
                   <p>hay mejor regalo que el saber que fuiste la oportunidad que necesitaba alguien.</p>
-                  <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                  <a href="/orden" class="btn-donate">Donar Ahora</a>
               </div>
 
               <div>
-                <img src="discapacitados.png" alt="Imagen discapacitados">
+                <img src="{{ url_for('static', filename='images/discapacitados.png') }}"alt="Imagen discapacitados">
               </div>
             </div>         
           </section>
@@ -76,10 +77,10 @@
                   <h2> ¿Quienes somos?</h2>
                   <p>Somos tec de monterrey y asociados (TecSalud, Tecmilenio) estamos juntos para crear una asociacion para poder apoyar mediante certificados que ustedes pueden donar, va diriido para personas que lo ncesitan y no tienen llas mismas posiblidades economicas de pagar alguna irugia, tratamiento,</p>
               <div class="teclogos">
-                      <img src="Tecmilenio.png" alt="Tec Salud">
-                      <img src="logotecs.png" alt="Tec">
-                      <img src="logo-hospital-angeles.png" alt="Tecmilenio">
-                          
+                      <img src="{{ url_for('static', filename='images/Tecmilenio.png') }}" alt="Tec Salud">
+                      <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Tec">
+                      <img src="{{ url_for('static', filename='images/logo-hospital-angeles.png') }}"alt="Tecmilenio">
+                        
                   </div>      
               </div>
             </section>
@@ -95,51 +96,51 @@
             <div class="grid-container">
                 
                 <div class="card">
-                    <img src="becastec.jpeg" alt="Campaña">
+                    <img src="{{ url_for('static', filename='images/becastec.jpeg') }}" alt="Campaña">
                     <div class="price">$500 MXN</div>
                     <div class="title">Beca Tecmilenio</div>
                     <p class="description">Ayuda a estudiantes talentosos sin recursos a completar su formación académica profesional.</p>
-                    <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                    <a href="/orden" class="btn-donate">Donar Ahora</a>
                 </div>
         
                 <div class="card">
-                    <img src="tecsaludcert.png" alt="Campaña">
+                    <img src="{{ url_for('static', filename='images/tecsaludcert.png') }}" alt="Campaña">
                     <div class="price">$1,000 MXN</div>
                     <div class="title">Certificado Tec Salud</div>
                     <p class="description">Impulsando vidas activas mediante el acceso a medicina especializada y nutrición.</p>
-                    <a href= Resumen_compra.html class="btn-donate">Donar Ahora</a>
+                    <a href= /orden class="btn-donate">Donar Ahora</a>
                 </div>
         
                 <div class="card">
-                    <img src="Lideres del mañana.png" alt="Campaña">
+                    <img src="{{ url_for('static', filename='images/Lideres del mañana.png') }}" alt="Campaña">
                     <div class="price">$2,000 MXN</div>
                     <div class="title">Líderes del Mañana</div>
                     <p class="description">Apoya a jóvenes con ideas innovadoras y compromiso social que buscan cambiar el mundo.</p>
-                    <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                    <a href="/orden" class="btn-donate">Donar Ahora</a>
                 </div>
         
                 <div class="card">
-                    <img src="Niños .png" alt="Cirugías">
+                    <img src="{{ url_for('static', filename='images/Niños .png') }}" alt="Cirugías">
                     <div class="price">Monto Variable</div>
                     <div class="title">Cirugías de Impacto</div>
                     <p class="description">Tu donación financia intervenciones quirúrgicas críticas para niños en situación vulnerable.</p>
-                    <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                    <a href="/orden" class="btn-donate">Donar Ahora</a>
                 </div>
 
                 <div class="card">
-                  <img src="mamassolteras.jpg" alt="Cojones">
+                  <img src="{{ url_for('static', filename='images/mamassolteras.jpg') }}" alt="Cojones">
                   <div class="price">Monto Variable</div>
                   <div class="title">Apoyo a mamas solteras</div>
                   <p class="description">Tu donación financia partos en el hospital para mamas con dificultad economica</p>
-                  <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                  <a href="/orden" class="btn-donate">Donar Ahora</a>
               </div>
 
               <div class="card">
-                <img src="reinamadrecert.jpeg" alt="Pussy">
+                <img src="{{ url_for('static', filename='images/reinamadrecert.jpeg') }}" alt="Pussy">
                 <div class="price">Monto Variable</div>
                 <div class="title">Apoyo a Hospital Reina Madre</div>
                 <p class="description">Tu donación financia equipo para los hospitales de Reina Madre</p>
-                <a href="Resumen_compra.html" class="btn-donate">Donar Ahora</a>
+                <a href="/orden" class="btn-donate">Donar Ahora</a>
             </div>
             </div>
           <!-- fin parte de Rolando--------------------------------------------------------------------------------------------->
@@ -148,10 +149,10 @@
             <h3>Colaboradores con diferentes hospitales en la república</h3>
           
             <div class="logos">
-              <img src="logo-hospital-angeles.png" alt="Hospital 1">
-              <img src="lmedicasur.svg" alt="Hospital 2">
-              <img src="logotecs.png" alt="Hospital 3">
-              <img src="lreina.png" alt="Hospital 4">
+              <img src="{{ url_for('static', filename='images/logo-hospital-angeles.png') }}" alt="Hospital 1">
+              <img src="{{ url_for('static', filename='images/lmedicasur.svg') }}" alt="Hospital 2">
+              <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Hospital 3">
+              <img src="{{ url_for('static', filename='images/lreina.png') }}" alt="Hospital 4">
             </div>
           </section>
   </main>
