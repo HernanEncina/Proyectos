@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>TecSalud</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/Styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/styleR.css') }}">
+
 </head>
 <body>
 
 <header class="header">
-  <img src="logotecs.png" alt="">
+  <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="">
   <div class="lo"></div>
   <nav>
     <a href="/main">Home</a>
@@ -18,10 +20,7 @@
 <main class="layout">
 
   <!-- Columna izquierda -->
-  <section class="preview">
-    <img src="certpa.png" alt="Certificado">
-    <p class="maximo">Máximo $250,000.00 MX</p>
-  </section>
+
 
   <!-- Columna centro -->
   <!-- Columna centro -->
@@ -47,7 +46,7 @@
     <label>Mensaje personalizado (opcional)</label>
     <textarea id="mensaje" placeholder="Escribe un mensaje para el certificado..." rows="3"></textarea>
 
-    <button id="donar-btn" class="button">Donar Ahora</button>
+     <button id="donar-btn" class="button">Donar Ahora</button>
 </section>
 
   <!-- Columna derecha -->

@@ -9,14 +9,26 @@ import textwrap
 import io
 import threading
 import time
+from mailjet_rest import Client
+import base64
+from dotenv import load_dotenv
+
+
+
+# Cargar variables de entorno 
+# Por seguridad se uso un archivo .env para las claves del servicio flask_mail
+load_dotenv()  
+
 
 # Configuración
 app = Flask(__name__)
-app.secret_key = 'Sistema-secret-key-2025'
+app.secret_key = os.getenv('SECRET_KEY', 'fallback-secret-key')  
 
-DATABASE = '/home/hernansote/dbs/sys-donaciones/sys-donaciones'
-UPLOAD_FOLDER = '/home/hernansote/dbs/sys-donaciones/certificados'
-TEMPLATES_FOLDER = '/home/hernansote/dbs/sys-donaciones/plantillas'
+
+# Rutas de archivos (usando rutas relativas)
+DATABASE = 'data/sys-donaciones/sys-donaciones'
+UPLOAD_FOLDER = 'data/sys-donaciones/certificados'
+TEMPLATES_FOLDER = 'data/sys-donaciones/plantillas'
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(TEMPLATES_FOLDER, exist_ok=True)
@@ -35,7 +47,58 @@ def close_connection(exception):
         db.close()
 
 # ============================================
-# FUNCIÓN GENERADORA DE CERTIFICADOS (MEJORADA)
+# FUNCIÓN PARA ENVIAR CERTIFICADOS POR MAIL
+# ============================================
+def enviar_certificado_email(email_destino, nombre_beneficiario, folio, img_bytes):
+
+    api_key = os.getenv("MAILJET_API_KEY")
+    api_secret = os.getenv("MAILJET_SECRET_KEY")
+
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+
+    encoded_image = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
+
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": os.getenv("MAIL_DEFAULT_SENDER"),
+                    "Name": "TecSalud"
+                },
+                "To": [
+                    {
+                        "Email": email_destino,
+                        "Name": nombre_beneficiario
+                    }
+                ],
+                "Subject": f"Tu certificado - {folio}",
+                "HTMLPart": f"""
+                    <h3>Gracias por tu donación</h3>
+                    <p>Hola {nombre_beneficiario}</p>
+                    <p>Adjunto encontrarás tu certificado.</p>
+                    <p><strong>Folio:</strong> {folio}</p>
+                """,
+                "Attachments": [
+                    {
+                        "ContentType": "image/png",
+                        "Filename": f"certificado_{folio}.png",
+                        "Base64Content": encoded_image
+                    }
+                ]
+            }
+        ]
+    }
+
+    result = mailjet.send.create(data=data)
+
+    print(result.status_code)
+    print(result.json())
+
+    return result.status_code == 200
+
+
+# ============================================
+# FUNCIÓN GENERADORA DE CERTIFICADOS 
 # ============================================
 
 def generar_imagen_certificado(datos_certificado, output_path=None):
@@ -77,11 +140,11 @@ def generar_imagen_certificado(datos_certificado, output_path=None):
         
         # Cargar fuentes
         try:
-            font_titulo = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 60)
-            font_nombre = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 80)
-            font_texto = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 40)
-            font_mensaje = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Italic.ttf", 35)
-            font_folio = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 20)
+            font_titulo = ImageFont.truetype("data/sys-donaciones/fuentes/PlayfairDisplay.ttf", 60)
+            font_nombre = ImageFont.truetype("data/sys-donaciones/fuentes/DancingScript.ttf", 60)
+            font_texto = ImageFont.truetype("data/sys-donaciones/fuentes/PlayfairDisplay.ttf", 30)
+            font_mensaje = ImageFont.truetype("data/sys-donaciones/fuentes/Abel-Regular.ttf", 35)
+            font_folio = ImageFont.truetype("data/sys-donaciones/fuentes/PlayfairDisplay.ttf", 30)
         except:
             font_titulo = ImageFont.load_default()
             font_nombre = ImageFont.load_default()
@@ -101,24 +164,24 @@ def generar_imagen_certificado(datos_certificado, output_path=None):
         if folio:
             bbox_folio = draw.textbbox((0, 0), folio, font=font_folio)
             folio_ancho = bbox_folio[2] - bbox_folio[0]
-            draw.text((img.width - folio_ancho - 50, 100), folio, fill='#95a5a6', font=font_folio)
+            draw.text((img.width - folio_ancho - 50, 100), folio, stroke_width=1, stroke_fill='#545454', fill='#38AB82', font=font_folio)
         
         # Otorgado a
         draw.text((150, 300), "Otorgado a:", fill='#34495e', font=font_texto)
-        draw.text((150, 370), datos_certificado['nombre_titular'], fill='#e74c3c', font=font_nombre)
+        draw.text((150, 345), datos_certificado['nombre_titular'], fill='#328531', font=font_nombre)
         
         # A nombre de
         if datos_certificado.get('nombre_beneficiario') and datos_certificado['nombre_beneficiario'] != datos_certificado['nombre_titular']:
-            draw.text((150, 500), "A nombre de:", fill='#34495e', font=font_texto)
-            draw.text((150, 570), datos_certificado['nombre_beneficiario'], fill='#2980b9', font=font_nombre)
+            draw.text((150, 430), "A nombre de:", fill='#204956', font=font_texto)
+            draw.text((150, 475), datos_certificado['nombre_beneficiario'], fill='#2980b9', font=font_nombre)
         
         # Tipo de certificado
-        draw.text((150, 700), f"Certificado: {datos_certificado['certificado_nombre']}", 
-                 fill='#16a085', font=font_texto)
+        draw.text((150, 570), f"Certificado: {datos_certificado['certificado_nombre']}", 
+                 fill='#34495e', font=font_texto)
         
         # Cantidad y monto
-        draw.text((150, 770), f"Cantidad: {datos_certificado['cantidad']} | Monto: ${datos_certificado['monto']:,.2f} MXN", 
-                 fill='#27ae60', font=font_texto)
+        draw.text((150, 630), f"Cantidad: {datos_certificado['cantidad']} | Monto: ${datos_certificado['monto']:,.2f} MXN", 
+                 fill='#34495e', font=font_texto)
         
         # Mensaje personalizado
         if datos_certificado.get('mensaje'):
@@ -126,18 +189,18 @@ def generar_imagen_certificado(datos_certificado, output_path=None):
             wrapper = textwrap.TextWrapper(width=50)
             lines = wrapper.wrap(text=mensaje)
             
-            y_position = 900
+            y_position = 720
             for line in lines:
-                draw.text((150, y_position), line, fill='#8e44ad', font=font_mensaje)
+                draw.text((150, y_position), line, fill='#054570', font=font_mensaje)
                 y_position += 50
         
         # Fecha
         fecha = datos_certificado.get('fecha', datetime.now().strftime("%d de %B, %Y"))
-        draw.text((150, 1100), f"Fecha: {fecha}", fill='#7f8c8d', font=font_texto)
+        draw.text((150, 950), f"Fecha: {fecha}", fill='#34495e', font=font_texto)
         
         # Firma
-        draw.line([(150, 1300), (500, 1300)], fill='black', width=2)
-        draw.text((150, 1320), "Firma TecSalud", fill='#2c3e50', font=font_texto)
+        #draw.line([(150, 1300), (500, 1300)], fill='black', width=2)
+        #draw.text((150, 1320), "Firma TecSalud", fill='#2c3e50', font=font_texto)
         
         # Guardar o retornar bytes
         if output_path:
@@ -205,7 +268,7 @@ def get_certificado(id):
         return jsonify({"error": str(e)}), 500
 
 # ============================================
-# RUTA DE PAGO (DESCARGA INMEDIATA)
+# RUTA DE PAGO 
 # ============================================
 
 @app.route("/api/procesar-pago", methods=['POST'])
@@ -246,13 +309,13 @@ def procesar_pago():
         
         # Procesar cada item
         certificados_generados = []
-        
+
         for item in data['items']:
             # Insertar detalle
             cursor.execute("""
                 INSERT INTO donacion_detalles 
                 (donacion_id, certificado_id, cantidad, precio_unitario, nombre_certificado, 
-                 nombre_beneficiario, mensaje_personalizado, folio_certificado)
+                nombre_beneficiario, mensaje_personalizado, folio_certificado)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 donacion_id,
@@ -267,6 +330,14 @@ def procesar_pago():
             
             detalle_id = cursor.lastrowid
             
+            # OBTENER LA IMAGEN_URL DEL CERTIFICADO
+            nombre_plantilla = 'plantilla_default.jpg'
+            if item.get('certificado_id'):
+                cursor.execute("SELECT imagen_url FROM certificados WHERE id = ?", (item.get('certificado_id'),))
+                cert_info = cursor.fetchone()
+                if cert_info and cert_info['imagen_url']:
+                    nombre_plantilla = cert_info['imagen_url']
+            
             # Preparar datos para el certificado
             datos_certificado = {
                 'nombre_titular': data['nombre_titular'],
@@ -278,7 +349,7 @@ def procesar_pago():
                 'monto': item['precio'] * item['cantidad'],
                 'fecha': fecha.strftime("%d de %B, %Y"),
                 'folio': f"{folio}-{item.get('certificado_id', 'GEN')}",
-                'plantilla': f"plantilla_{item.get('certificado_id', 'default')}.jpg"
+                'plantilla': nombre_plantilla
             }
             
             # Guardar en certificados_generados
@@ -304,7 +375,7 @@ def procesar_pago():
         
         conn.commit()
         
-        # Tomamos el primer certificado para descargar (si hay múltiples, podrías hacer un ZIP)
+        # Tomamos el primer certificado para descargar
         cert_data = certificados_generados[0]['datos']
         
         # Generar imagen
@@ -313,7 +384,37 @@ def procesar_pago():
         if not img_bytes:
             return jsonify({"error": "Error al generar certificado"}), 500
         
+        # ============================================
+        # ENVIAR POR EMAIL - AHORA SÍ SE EJECUTARÁ
+        # ============================================
+        def enviar_email_thread():
+            with app.app_context():
+                try:
+                    # Crear una copia de los bytes para el email
+                    img_bytes_copy = io.BytesIO(img_bytes.getvalue())
+                    
+                    print(f"\n{'='*50}")
+                    print(f"📧 Intentando enviar email a: {data['email']}")
+                    print(f"{'='*50}")
+                    
+                    # Enviar email real (ya no simulamos)
+                    enviar_certificado_email(
+                        email_destino=data['email'],
+                        nombre_beneficiario=cert_data['nombre_beneficiario'],
+                        folio=folio,
+                        img_bytes=img_bytes_copy
+                    )
+                except Exception as e:
+                    print(f"❌ Error en thread de email: {e}")
+
+        # Iniciar thread para no bloquear la respuesta
+        email_thread = threading.Thread(target=enviar_email_thread)
+        email_thread.daemon = True
+        email_thread.start()
+        
+        # ============================================
         # Crear respuesta con la imagen
+        # ============================================
         response = send_file(
             img_bytes,
             as_attachment=True,
@@ -325,16 +426,20 @@ def procesar_pago():
         response.headers['X-Donacion-ID'] = str(donacion_id)
         response.headers['X-Folio'] = folio
         response.headers['X-Certificados'] = str(len(certificados_generados))
+        response.headers['X-Email-Enviado'] = 'true'
         
         return response
         
     except Exception as e:
+        print(f"❌ Error en procesar_pago: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 # ============================================
 # RUTA PARA REGENERAR CERTIFICADO POR ID
 # ============================================
 
+@app.route("/api/certificado/<int:detalle_id>", methods=['GET'])
 @app.route("/api/certificado/<int:detalle_id>", methods=['GET'])
 def get_certificado_by_id(detalle_id):
     """
@@ -344,7 +449,7 @@ def get_certificado_by_id(detalle_id):
         conn = get_db()
         cursor = conn.cursor()
         
-        # Obtener datos completos
+        # Obtener datos completos incluyendo imagen_url
         cursor.execute("""
             SELECT 
                 d.nombre_titular,
@@ -359,9 +464,11 @@ def get_certificado_by_id(detalle_id):
                 dd.certificado_id,
                 dd.folio_certificado,
                 cg.id as cert_gen_id,
-                cg.veces_descargado
+                cg.veces_descargado,
+                c.imagen_url
             FROM donacion_detalles dd
             JOIN donaciones d ON dd.donacion_id = d.id
+            LEFT JOIN certificados c ON dd.certificado_id = c.id
             LEFT JOIN certificados_generados cg ON dd.id = cg.donacion_detalle_id
             WHERE dd.id = ?
         """, (detalle_id,))
@@ -385,6 +492,13 @@ def get_certificado_by_id(detalle_id):
         fecha_donacion = datetime.strptime(detalle['fecha'], '%Y-%m-%d %H:%M:%S')
         fecha_formateada = fecha_donacion.strftime("%d de %B, %Y")
         
+        # Determinar plantilla a usar
+        nombre_plantilla = 'plantilla_default.jpg'
+        if detalle['imagen_url']:
+            nombre_plantilla = detalle['imagen_url']
+        elif detalle['certificado_id']:
+            nombre_plantilla = f"plantilla_{detalle['certificado_id']}.jpg"
+        
         # Preparar datos para regenerar
         datos_certificado = {
             'nombre_titular': detalle['nombre_titular'],
@@ -396,7 +510,7 @@ def get_certificado_by_id(detalle_id):
             'monto': detalle['cantidad'] * detalle['precio_unitario'],
             'fecha': fecha_formateada,
             'folio': detalle['folio_certificado'] or detalle['folio_donacion'],
-            'plantilla': f"plantilla_{detalle['certificado_id'] or 'default'}.jpg"
+            'plantilla': nombre_plantilla
         }
         
         # Determinar el formato de respuesta
@@ -547,6 +661,100 @@ def mis_certificados(email):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# ============================================
+# RUTA PARA REENVIAR CERTIFICADO POR EMAIL
+# ============================================
+
+@app.route("/api/reenviar-certificado/<int:detalle_id>", methods=['POST'])
+def reenviar_certificado(detalle_id):
+    """Reenvía un certificado por email"""
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        
+        # Obtener datos del certificado
+        cursor.execute("""
+            SELECT 
+                d.email,
+                d.nombre_titular,
+                dd.nombre_beneficiario,
+                dd.folio_certificado,
+                dd.nombre_certificado,
+                dd.cantidad,
+                dd.precio_unitario,
+                dd.mensaje_personalizado,
+                d.fecha,
+                c.imagen_url
+            FROM donacion_detalles dd
+            JOIN donaciones d ON dd.donacion_id = d.id
+            LEFT JOIN certificados c ON dd.certificado_id = c.id
+            WHERE dd.id = ?
+        """, (detalle_id,))
+        
+        detalle = cursor.fetchone()
+        
+        if not detalle:
+            return jsonify({"error": "Certificado no encontrado"}), 404
+        
+        # Formatear fecha
+        fecha_donacion = datetime.strptime(detalle['fecha'], '%Y-%m-%d %H:%M:%S')
+        fecha_formateada = fecha_donacion.strftime("%d de %B, %Y")
+        
+        # Determinar plantilla
+        nombre_plantilla = 'plantilla_default.jpg'
+        if detalle['imagen_url']:
+            nombre_plantilla = detalle['imagen_url']
+        
+        # Preparar datos para regenerar
+        datos_certificado = {
+            'nombre_titular': detalle['nombre_titular'],
+            'nombre_beneficiario': detalle['nombre_beneficiario'] or detalle['nombre_titular'],
+            'email': detalle['email'],
+            'mensaje': detalle['mensaje_personalizado'] or '',
+            'certificado_nombre': detalle['nombre_certificado'],
+            'cantidad': detalle['cantidad'],
+            'monto': detalle['cantidad'] * detalle['precio_unitario'],
+            'fecha': fecha_formateada,
+            'folio': detalle['folio_certificado'],
+            'plantilla': nombre_plantilla
+        }
+        
+        # Generar imagen
+        img_bytes = generar_imagen_certificado(datos_certificado)
+        
+        if not img_bytes:
+            return jsonify({"error": "Error al generar certificado"}), 500
+        
+        # Enviar por email
+        enviado = enviar_certificado_email(
+            email_destino=detalle['email'],
+            nombre_beneficiario=datos_certificado['nombre_beneficiario'],
+            folio=detalle['folio_certificado'],
+            img_bytes=img_bytes
+        )
+        
+        if enviado:
+            # Actualizar contador de veces_descargado (opcional)
+            cursor.execute("""
+                UPDATE certificados_generados 
+                SET veces_descargado = veces_descargado + 1,
+                    ultima_descarga = datetime('now', 'localtime')
+                WHERE donacion_detalle_id = ?
+            """, (detalle_id,))
+            conn.commit()
+            
+            return jsonify({
+                "success": True, 
+                "message": "Certificado reenviado correctamente"
+            }), 200
+        else:
+            return jsonify({
+                "error": "Error al enviar el email"
+            }), 500
+            
+    except Exception as e:
+        print(f"Error reenviando certificado: {e}")
+        return jsonify({"error": str(e)}), 500
 # ============================================
 # RUTA PARA ESTADÍSTICAS
 # ============================================
@@ -708,64 +916,7 @@ def check_database():
     except Exception as e:
         return jsonify({'error': str(e), 'status': 'error'}), 500
 
-# ============================================
-# RUTA PARA MIGRAR/ACTUALIZAR BASE DE DATOS
-# ============================================
 
-@app.route("/api/migrar", methods=['GET'])
-def migrar_bd():
-    """Agrega columnas faltantes a las tablas"""
-    try:
-        conn = get_db()
-        cursor = conn.cursor()
-        
-        # Agregar columna folio a donaciones
-        try:
-            cursor.execute("ALTER TABLE donaciones ADD COLUMN folio TEXT")
-            print("Columna folio agregada a donaciones")
-        except:
-            print("Columna folio ya existe en donaciones")
-        
-        # Agregar columnas a donacion_detalles
-        try:
-            cursor.execute("ALTER TABLE donacion_detalles ADD COLUMN nombre_beneficiario TEXT")
-            print("Columna nombre_beneficiario agregada a donacion_detalles")
-        except:
-            print("Columna nombre_beneficiario ya existe")
-        
-        try:
-            cursor.execute("ALTER TABLE donacion_detalles ADD COLUMN mensaje_personalizado TEXT")
-            print("Columna mensaje_personalizado agregada a donacion_detalles")
-        except:
-            pass
-        
-        try:
-            cursor.execute("ALTER TABLE donacion_detalles ADD COLUMN folio_certificado TEXT")
-            print("Columna folio_certificado agregada a donacion_detalles")
-        except:
-            pass
-        
-        # Agregar columnas a certificados_generados
-        try:
-            cursor.execute("ALTER TABLE certificados_generados ADD COLUMN veces_descargado INTEGER DEFAULT 0")
-            print("Columna veces_descargado agregada a certificados_generados")
-        except:
-            pass
-        
-        try:
-            cursor.execute("ALTER TABLE certificados_generados ADD COLUMN ultima_descarga DATETIME")
-            print("Columna ultima_descarga agregada a certificados_generados")
-        except:
-            pass
-        
-        conn.commit()
-        
-        return jsonify({
-            "mensaje": "Migración completada",
-            "status": "ok"
-        }), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 # ============================================
 # RUTAS PRINCIPALES
@@ -795,6 +946,7 @@ def pagorender():
 def miscertificadosrender():
    if request.method == "GET":
       return render_template("mis-certificados.html")
+
 
 
 

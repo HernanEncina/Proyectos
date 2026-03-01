@@ -459,83 +459,96 @@ procesarDonacion: function() {
     },
 
     /**
-     * Procesa el pago y descarga el certificado
-     */
-    procesarPago: async function() {
-        // Validar formulario
-        if (!this.validarFormularioPago()) {
-            return;
+ * Procesa el pago y descarga el certificado
+ */
+procesarPago: async function() {
+    // Validar formulario de pago (tarjeta, cvv, etc)
+    if (!this.validarFormularioPago()) {
+        return;
+    }
+    
+    // Verificar que tenemos los datos de la orden
+    if (!this.estado.donacionTemp) {
+        mostrarError('Error: No hay datos de la orden');
+        return;
+    }
+    
+    // Mostrar loading
+    const procesarBtn = document.getElementById('procesar-pago-btn');
+    const loadingDiv = document.getElementById('loading');
+    
+    if (procesarBtn) procesarBtn.disabled = true;
+    if (loadingDiv) loadingDiv.style.display = 'block';
+    
+    ocultarError();
+    
+  
+    // ✅ CORREGIDO: Usar los datos de la orden, NO del formulario
+   
+    const datosPago = {
+        nombre_titular: this.estado.donacionTemp.nombre_titular,  // ← De la orden
+        email: this.estado.donacionTemp.email,                    // ← De la orden
+        items: this.estado.donacionTemp.items || []
+    };
+    
+    // DEBUG: Mostrar qué estamos enviando
+    console.log('📤 Enviando datos de pago (desde la orden):', datosPago);
+    console.log('📦 Datos de la orden:', this.estado.donacionTemp);
+    
+    try {
+        const response = await fetch(`${API_BASE}/api/procesar-pago`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datosPago)
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Error al procesar el pago');
         }
         
-        // Mostrar loading
-        const procesarBtn = document.getElementById('procesar-pago-btn');
-        const loadingDiv = document.getElementById('loading');
+        // Obtener headers
+        const donacionId = response.headers.get('X-Donacion-ID');
+        const folio = response.headers.get('X-Folio');
         
-        if (procesarBtn) procesarBtn.disabled = true;
-        if (loadingDiv) loadingDiv.style.display = 'block';
+        // Verificar si es una imagen (certificado)
+        const contentType = response.headers.get('Content-Type');
         
-        ocultarError();
-        
-        // Preparar datos finales
-        const datosPago = {
-            nombre_titular: document.getElementById('nombre_titular')?.value.trim() || '',
-            email: document.getElementById('email')?.value.trim() || '',
-            items: this.estado.donacionTemp?.items || []
-        };
-        
-        try {
-            const response = await fetch(`${API_BASE}/api/procesar-pago`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(datosPago)
+        if (contentType && contentType.includes('image/png')) {
+            // Descargar el certificado
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `certificado_${folio || 'donacion'}.png`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            // Limpiar sessionStorage
+            sessionStorage.removeItem('donacion_temp');
+            
+            // Mostrar mensaje de éxito con el email de la orden
+            mostrarExito({
+                donacionId: donacionId,
+                folio: folio,
+                email: datosPago.email  // ← Usamos el email de la orden
             });
-            
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Error al procesar el pago');
-            }
-            
-            // Obtener headers
-            const donacionId = response.headers.get('X-Donacion-ID');
-            const folio = response.headers.get('X-Folio');
-            
-            // Verificar si es una imagen (certificado)
-            const contentType = response.headers.get('Content-Type');
-            
-            if (contentType && contentType.includes('image/png')) {
-                // Descargar el certificado
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `certificado_${folio || 'donacion'}.png`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                // Limpiar sessionStorage
-                sessionStorage.removeItem('donacion_temp');
-                
-                // Mostrar mensaje de éxito
-                mostrarExito({
-                    donacionId: donacionId,
-                    folio: folio,
-                    email: datosPago.email
-                });
-            } else {
-                // Si no es imagen, algo salió mal
-                const data = await response.json();
-                throw new Error(data.message || 'Respuesta inesperada del servidor');
-            }
-            
-        } catch (error) {
-            mostrarError(error.message);
-            if (procesarBtn) procesarBtn.disabled = false;
-            if (loadingDiv) loadingDiv.style.display = 'none';
+        } else {
+            // Si no es imagen, algo salió mal
+            const data = await response.json();
+            throw new Error(data.message || 'Respuesta inesperada del servidor');
         }
-    },
+        
+    } catch (error) {
+        console.error('❌ Error en pago:', error);
+        mostrarError(error.message);
+        if (procesarBtn) procesarBtn.disabled = false;
+        if (loadingDiv) loadingDiv.style.display = 'none';
+    }
+},
 
     // ============================================
     // FUNCIONES PARA MIS-CERTIFICADOS.HTML
