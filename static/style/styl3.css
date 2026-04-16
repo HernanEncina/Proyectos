@@ -5,7 +5,8 @@ body {
   }
   
   /* Fondo y centrado */
-  .hero {
+  
+  hero {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -58,28 +59,7 @@ body {
     cursor: pointer;
   }
    /* Contenedor de logos */
-  .colaboradores {
-    text-align: center;
-    padding: 60px 40px;
-    background-color: rgb(223, 217, 214); 
-    margin: 100px;
-  }
-  
-  .colaboradores h3 {
-    font-size: 20px;
-    margin-bottom: 32px;
-    color: #000;
-  }
-  
-  /* Contenedor de logos */
-  .logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap; /* para móvil */
-  }
-  
+ 
   /* Imágenes */
 
   .logos img {
@@ -119,10 +99,151 @@ body {
     object-fit: contain;
   }
   .header-container {
-    background-color: rgb(2, 48, 160);
+    background-color: rgb(179, 155, 103);
     padding: 20px 40px;
     margin-left: calc(-50vw + 50%);
     width: 100vw;     
     margin: calc(-50vw + 50%);
+  }
 
+    
+
+  .pack2 {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;      
+    margin: 50px auto;
+  }
+
+  .textpack2 {
+      text-align: left;
+      margin-left: 10%;
+      margin-top: 7px;
+      max-width: 1200px;
+      margin: 0;
+      flex: 1;
+    }
+
+  .pack3 {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;      
+    margin: 50px auto;
+  }
+
+  .textpack3 {
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 7px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1;
+  }
+
+
+
+ .pack4 {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;      
+    margin: 50px auto;
+  }
+
+  .textpack4 {
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 7px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1;
+  }
+
+  .textpack5 {
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 7px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1;
+  }
+
+  .pack5 {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;      
+    margin: 50px auto;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+  .card {
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+ .card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+  .text {
+    max-width: 400px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.pack {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1500px;
+  margin: 100px 0;
+  padding: 0 40px;
+  gap: 60px;
+}
+.extra-text {
+    border-left: 2px solid #eee;
+    padding-left: 15px;
+}
+.card .description {
+    font-size: 14px;
+    color: #555;
+}
+
+.card .title {
+    font-size: 18px;
+}
+
+.card .price {
+    font-size: 16px;
 }

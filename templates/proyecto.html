@@ -2,167 +2,150 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/hernanstyle.css') }}"><!--- enlace a css  Hernan --> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/styl3.css') }}">  <!--- enlace a css  Cristian --> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">  <!--- enlace a css  rolando --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/hernanstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styl3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/styleR.css') }}">
-    <title>
-        Tecsalud
-    </title>
-    <link rel="icon" type="image/png" href=>
+    <title>Tecsalud</title>
 </head>
 
 <body>
 
-    <div class="header-container"  id="home">
-        <!--<img src="{{ url_for('static', filename='images/morro.jpeg') }}" alt="Logo de tecsalud" class="logo">-->
-        <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Logo de tecsalud" class="logo">
-        <nav class="navbar">
-            <a href="#home">Home</a>
-            <a href="#news">Mas sobre nosotros</a>
-            <a href="#contact">Servicios</a>
-            <a href="#about">Equiṕo</a>
-        </nav>
+
+    <div class="header-container" id="home">
+        <img src="{{ url_for('static', filename='images/logotecs.png') }}" class="logo">
     </div>
-    <br>
-  <main> 
-    <section class="main-content">
-        <div class="main-text">
-            <p class="smol-text">Sanando corazones, sanando vidas</p>
-            <p class="highlight">Tecsalud por mas oportunidades <br> para todas <br>las y los Mexicanos</p>
-            <p class="other-text"> La fundacion Tecsalud esta comprometida a <br> brindar mas acceso a servicios de salud <br> a las personas en situacion<br>vulnerable de nuestro pais</p>
+
+    <main>
+
+        <!-- RESENTACIÓN SPA -->
+        <section class="main-content">
+            <div class="main-text">
+                <p class="highlight">SpaX</p>
+                <p class="other-text">
+                    Bienvenido a nuestro spa un espacio diseñado para brindarte tranquilidad bienestar y renovación total aquí podrás desconectarte del estrés diario y reconectar contigo mismo a través de experiencias únicas de relajación contamos con una amplia variedad de servicios organizados en distintos niveles pensados para adaptarse a tus necesidades y a tu presupuesto desde tratamientos individuales hasta experiencias en pareja cada uno de nuestros paquetes está creado para ofrecerte confort equilibrio y cuidado personal déjanos consentirte y descubre por qué somos tu mejor opción para vivir una experiencia de relajación inolvidable
+                </p>
+            </div>
+            <div class="box1">
+            <img src="{{ url_for('static', filename='images/paquete1.jpg') }}">
+            <p class="card-price">$699 MXN</p>
+            <p class="normal-text1">Relajación Total</p>
+            <p class="normal-text1">Masaje relajante (60 min), aromaterapia y té o bebida natural</p>
+            <a href="/orden" class="btn-donate">Reservar</a>
         </div>
-        <!-- CERTIFICADO 1: Certificado por damnificados -->
-        <div class="box1">
-            <img src="{{ url_for('static', filename='images/disabled1.jpeg') }}" alt="Personas en sillas de ruedas">
-            <br>
-            <p class="card-price"> 1200Mxn </p>
-            <p class="normal-text1">Certificado por damnificados</p>
-            <p class="normal-text1" > Ayuda para damnificados por desastres naturales </p>
-            <a href="/orden" class="btn-donate">Donar Ahora</a>
+        </section>
+
+
+
+<section class="pack">
+
+    <div class="cards">
+
+        <!-- PACK 2 -->
+        <div class="card">
+                <img src="{{ url_for('static', filename='images/paquete2.jpg') }}">
+                <div class="info">
+                    <div class="price">$549 MXN</div>
+                    <div class="title">Renovación Facial</div>
+                    <p class="description">
+                        Limpieza facial profunda, exfoliación y mascarilla hidratante
+                    </p>
+                    <a href="/orden" class="btn-donate">Reservar</a>
+                </div>
+
+            <div class="extra-text">
+                <p>
+                    Tratamiento enfocado en el cuidado profundo de la piel, ideal para
+                    revitalizar el rostro y mejorar su apariencia. Incluye una limpieza
+                    facial que elimina impurezas acumuladas y prepara la piel.
+                </p>
+                <p>
+                    Se complementa con exfoliación para remover células muertas y mejorar
+                    la textura. Finaliza con una mascarilla hidratante que aporta frescura
+                    y luminosidad.
+                </p>
+            </div>
         </div>
-        <!-- CERTIFICADO 2: Certificado para gente ciega -->
-        <div class="box2">
-            <img src="{{ url_for('static', filename='images/disabled1.jpeg') }}" alt="Personas en sillas de ruedas">
-            <br>
-            <p class="card-price"> 1200Mxn </p>
-            <p class="normal-text1">Certificado para gente ciega</p>
-            <p class="normal-text1" > Apoyo para personas con discapacidad visual </p>
-            <a href="/orden" class="btn-donate">Donar Ahora</a>
+
+
+        <!-- PACK 3 -->
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/paquete3.jpg') }}">
+            <div class="info">
+                <div class="price">$1,299 MXN</div>
+                <div class="title">Spa Premium</div>
+                <p class="description">
+                    Masaje relajante, facial, jacuzzi o vapor y bebida
+                </p>
+                <a href="/orden" class="btn-donate">Reservar</a>
+            </div>
+
+            <div class="extra-text">
+                <p>
+                    Experiencia completa diseñada para brindar relajación total y bienestar integral.
+                     Incluye un masaje relajante de cuerpo completo que ayuda a liberar tensión muscular.
+                    Se complementa con un facial básico para limpiar e hidratar la piel. 
+                    Además, ofrece acceso a jacuzzi o vapor para una mayor sensación de descanso.
+                    Todo acompañado de una bebida en un ambiente tranquilo y confortable.
+
+                </p>
+            </div>
         </div>
-    </section>
-        <!-- fin parte de hernan--------------------------------------------------------------------------------------------->
-        
-           
-        <section class="hero" id="news">
-            <div class="seccion seccioncolor">
-              <div>
-                  <h2> $200/mx</h2>
-                  <h1>Un certificado puede</h1>
-                  <h1>Cambiar la vida</h1>
-                  <h1>De alguien</h1>
-                  <p>Puedes hacer tu donacion y recibir tu certificado a nombre de alguien mas, no</p>
-                  <p>hay mejor regalo que el saber que fuiste la oportunidad que necesitaba alguien.</p>
-                  <a href="/orden" class="btn-donate">Donar Ahora</a>
-              </div>
 
-              <div>
-                <img src="{{ url_for('static', filename='images/discapacitados.png') }}"alt="Imagen discapacitados">
-              </div>
-            </div>         
-          </section>
-
-            </section>
-  
-            <section class="tec" id="about">
-              <div class="teccolor">
-                  <h2> ¿Quienes somos?</h2>
-                  <p>Somos tec de monterrey y asociados (TecSalud, Tecmilenio) estamos juntos para crear una asociacion para poder apoyar mediante certificados que ustedes pueden donar, va diriido para personas que lo ncesitan y no tienen llas mismas posiblidades economicas de pagar alguna irugia, tratamiento,</p>
-              <div class="teclogos">
-                      <img src="{{ url_for('static', filename='images/Tecmilenio.png') }}" alt="Tec Salud">
-                      <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Tec">
-                      <img src="{{ url_for('static', filename='images/logo-hospital-angeles.png') }}"alt="Tecmilenio">
-                        
-                  </div>      
-              </div>
-            </section>
-
-
-  <!-- fin parte de cristian--------------------------------------------------------------------------------------------->
-
-              <div class="header">
-                <h1>Apoya a quien más lo necesite</h1>
-                <p>Operaciones, medicamentos y cuidados para transformar vidas.</p>
+        <!-- PACK 4 -->
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/paquete4.jpg') }}">
+            <div class="info">
+                <div class="price">$1,899 MXN</div>
+                <div class="title">Escapada en Pareja</div>
+                <p class="description">
+                    Masaje para dos personas, aromaterapia y bebida
+                </p>
+                <a href="/orden" class="btn-donate">Reservar</a>
             </div>
-        
-            <div class="grid-container">
-                
-                <!-- CERTIFICADO 3: Certificado donante lite -->
-                <div class="card">
-                    <img src="{{ url_for('static', filename='images/becastec.jpeg') }}" alt="Campaña">
-                    <div class="price">$500 MXN</div>
-                    <div class="title">Certificado donante lite</div>
-                    <p class="description">Certificado básico de donación</p>
-                    <a href="/orden" class="btn-donate">Donar Ahora</a>
-                </div>
-        
-                <!-- CERTIFICADO 4: Certificado donante plus -->
-                <div class="card">
-                    <img src="{{ url_for('static', filename='images/tecsaludcert.png') }}" alt="Campaña">
-                    <div class="price">$1,000 MXN</div>
-                    <div class="title">Certificado donante plus</div>
-                    <p class="description">Certificado premium con beneficios especiales</p>
-                    <a href= /orden class="btn-donate">Donar Ahora</a>
-                </div>
-        
-                <!-- CERTIFICADO 5: Certificado infantil -->
-                <div class="card">
-                    <img src="{{ url_for('static', filename='images/Lideres del mañana.png') }}" alt="Campaña">
-                    <div class="price">$2,000 MXN</div>
-                    <div class="title">Certificado infantil</div>
-                    <p class="description">Apoyo para programas infantiles</p>
-                    <a href="/orden" class="btn-donate">Donar Ahora</a>
-                </div>
-        
-                <!-- CERTIFICADO 6: Certificado adulto mayor -->
-                <div class="card">
-                    <img src="{{ url_for('static', filename='images/Niños .png') }}" alt="Cirugías">
-                    <div class="price">Monto Variable</div>
-                    <div class="title">Certificado adulto mayor</div>
-                    <p class="description">Apoyo para programas de adultos mayores</p>
-                    <a href="/orden" class="btn-donate">Donar Ahora</a>
-                </div>
 
-                <!-- CERTIFICADO 7: Certificado educación -->
-                <div class="card">
-                  <img src="{{ url_for('static', filename='images/mamassolteras.jpg') }}" alt="Cojones">
-                  <div class="price">Monto Variable</div>
-                  <div class="title">Certificado educación</div>
-                  <p class="description">Fondo para becas educativas</p>
-                  <a href="/orden" class="btn-donate">Donar Ahora</a>
-              </div>
+            <div class="extra-text">
+                <p>
+                    Paquete ideal para compartir un momento especial en compañía, perfecto para citas o celebraciones. 
+                    Incluye masaje simultáneo para dos personas en un ambiente privado. 
+                    Se utiliza aromaterapia para intensificar la relajación y la conexión. 
+                    También incluye una bebida de cortesía y decoración romántica.
+                     Una experiencia pensada para disfrutar, relajarse y crear recuerdos únicos.
+                </p>
+            </div>
+        </div>
 
-              <!-- CERTIFICADO 8: Certificado salud -->
-              <div class="card">
-                <img src="{{ url_for('static', filename='images/reinamadrecert.jpeg') }}" alt="Pussy">
-                <div class="price">Monto Variable</div>
-                <div class="title">Certificado salud</div>
-                <p class="description">Apoyo para programas de salud</p>
-                <a href="/orden" class="btn-donate">Donar Ahora</a>
+        <!-- PACK 5 -->
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/paquete5.jpg') }}">
+            <div class="info">
+                <div class="price">$999 MXN</div>
+                <div class="title">Desintoxicación Total</div>
+                <p class="description">
+                    Sauna o vapor, exfoliación corporal y masaje
+                </p>
+                <a href="/orden" class="btn-donate">Reservar</a>
             </div>
-            </div>
-          <!-- fin parte de Rolando--------------------------------------------------------------------------------------------->
-          
-          <section class="colaboradores" id="contact">
-            <h3>Colaboradores con diferentes hospitales en la república</h3>
-          
-            <div class="logos">
-              <img src="{{ url_for('static', filename='images/logo-hospital-angeles.png') }}" alt="Hospital 1">
-              <img src="{{ url_for('static', filename='images/lmedicasur.svg') }}" alt="Hospital 2">
-              <img src="{{ url_for('static', filename='images/logotecs.png') }}" alt="Hospital 3">
-              <img src="{{ url_for('static', filename='images/lreina.png') }}" alt="Hospital 4">
-            </div>
-          </section>
-  </main>
+            <div class="extra-text">
+                <p>
+                    Tratamiento diseñado para eliminar toxinas acumuladas en el cuerpo y promover la renovación celular. 
+                    Comienza con una sesión de sauna o vapor para abrir los poros y facilitar la eliminación de impurezas. 
+                    Continúa con una exfoliación corporal que remueve células muertas y mejora la textura de la piel. 
+                    Finaliza con un masaje desintoxicante que ayuda a estimular la circulación y relajar los músculos, dejando una sensación de frescura y bienestar total.
+                </p>
+        </div>
+
+    </div>
+
+
+    </div>
+
+</section>
+        
+
+
+    </main>
+
+</Section>
 </body>
 </html>

@@ -20,15 +20,22 @@ html { background-color: rgb(249, 245, 232);}
 .main-content{
     display: flex;
     margin-top: 70px;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 12000px;      
+    margin: 50px auto;
 }
 
 .highlight{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
-    font-size: 45px;
+    font-size: 60px;
     margin-top: 0px;
     margin-bottom: 0px;
+    line-height: 1.8;
 }
+
+
 
 .smol-text{
     font-family:  Arial, Helvetica, sans-serif;
@@ -42,6 +49,9 @@ html { background-color: rgb(249, 245, 232);}
     text-align: left;
     margin-left: 10%;
     margin-top: 7px;
+    max-width: 1200px;
+    margin: 0;
+    flex: 1;
 }
 
 .other-text{
@@ -53,13 +63,16 @@ html { background-color: rgb(249, 245, 232);}
 .box1{
     background-color: #FFFFFF;
     padding: 20px ;
-    margin-left: 40px;
+    margin: 0 auto;
     border-radius: 20px;
     border: 1px solid #3D3D3D;
     width: fit-content;
-    
+    max-width: 300px;
 }
-
+.box1 img{
+    width: 100%;
+    border-radius: 15px;
+}
 .normal-text1{
     size: 4px;
     font-family:  Arial, Helvetica, sans-serif;
